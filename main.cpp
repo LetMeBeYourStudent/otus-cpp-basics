@@ -1,6 +1,7 @@
 #include <iostream>
+#include "headers/functions.h"
 
 int main()
 {
-    std::cout << "Добро пожаловать в мир С++" << std::endl;
+    std::cout << print_hello_worlds() << std::endl;
 }
