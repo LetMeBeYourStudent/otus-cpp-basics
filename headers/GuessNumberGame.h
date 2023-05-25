@@ -17,7 +17,7 @@ namespace homework_1_guess_number {
         void start();
     private:
         /// Функция получает минимальное и максимальное числа
-        /// \param max_number - максимальное число (>0)
+        /// \param max_number - максимальное число (>1)
         /// \return минимальное и максимальное числа
         std::tuple<int, int> get_min_max_number(int max_number);
 
@@ -37,7 +37,7 @@ namespace homework_1_guess_number {
         void choose_name();
 
         /// Старт игры
-        /// \return
+        /// \return Выводит количество попыток
         int start_game(int left, int right);
 
         /// Таблица рекордов

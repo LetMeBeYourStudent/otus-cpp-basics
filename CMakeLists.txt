@@ -4,9 +4,8 @@ project(hello_world)
 
 add_executable(hello_world
         hello_world.cpp
-    headers/functions.h
-    source/functions.cpp
-)
+        headers/functions.h
+        source/functions.cpp)
 
 add_executable(guess_number
         guess_number.cpp
