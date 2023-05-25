@@ -3,9 +3,10 @@
 //
 
 #include <iostream>
-#include "headers/binary_search.h"
+#include "headers/GuessNumberGame.h"
 
 int main()
 {
-    std::cout << binary_search(0, 75, 75);
+    homework_1_guess_number::GuessNumberGame game = homework_1_guess_number::GuessNumberGame();
+    game.start(); 
 }

@@ -7,11 +7,13 @@
 
 #include <tuple>
 #include <string>
+#include <map>
 
 namespace homework_1_guess_number {
 
     class GuessNumberGame {
     public:
+        GuessNumberGame();
         void start();
     private:
         /// Функция получает минимальное и максимальное числа
@@ -34,13 +36,12 @@ namespace homework_1_guess_number {
         /// Ввод имени игрока
         void choose_name();
 
-        /// Старт простой игры
+        /// Старт игры
         /// \return
-        int start_simple_game();
+        int start_game(int left, int right);
 
-        /// Старт странной игры
-        /// \return
-        int start_strange_game();
+        /// Таблица рекордов
+        std::map<std::string, int> score_table_;
 
         /// Имя игрока
         std::string player_name_ = "";
