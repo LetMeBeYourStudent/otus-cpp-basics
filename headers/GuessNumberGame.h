@@ -33,12 +33,22 @@ namespace homework_1_guess_number {
         /// \return Результат выбора
         bool play_with_computer_menu();
 
-        /// Ввод имени игрока
-        void choose_name();
-
         /// Старт игры
         /// \return Выводит количество попыток
         int start_game(int left, int right);
+
+        /// Загружает таблицу рекордов
+        bool load_high_score_table_from_file();
+
+        /// Добавляет новый результат в таблицу или заменяет
+        ///  старый результат на меньший
+        void add_new_high_score(int player_score);
+
+        /// Перезаписывает файл с новыми данными
+        void refresh_high_score_table_file();
+
+        // Печатает таблицу рекордов
+        void print_high_score_table();
 
         /// Таблица рекордов
         std::map<std::string, int> score_table_;
