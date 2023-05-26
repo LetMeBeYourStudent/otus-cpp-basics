@@ -3,8 +3,9 @@
 //
 
 #include "../headers/GuessNumberGame.h"
-#include <iostream>
 #include "../headers/binary_search.h"
+#include <fstream>
+#include <iostream>
 
 namespace homework_1_guess_number {
 
@@ -24,7 +25,7 @@ namespace homework_1_guess_number {
             std::cout << "3. High score table.\n";
             std::cout << "4. Exit game." << std::endl;
 
-            std::cout << "Enter your choice: ";
+            std::cout << "Please, enter your choice, " << player_name_ << ": ";
             std::cin >> choice;
             if (choice > 4 || choice <=0)
             {
@@ -44,10 +45,6 @@ namespace homework_1_guess_number {
             return true;
         }
         return false;
-    }
-
-    void GuessNumberGame::choose_name()
-    {
     }
 
     int GuessNumberGame::start_game(int left, int right)
@@ -103,13 +100,118 @@ namespace homework_1_guess_number {
             }
         }
 
+        add_new_high_score(player_tries);
+
         return player_tries;
+    }
+
+    bool GuessNumberGame::load_high_score_table_from_file()
+    {
+        std::ifstream score_file{"high_score_table.data"};
+        
+        // Если не открыт, то выводим ошибку и выходим
+        if (!score_file.is_open())
+        {
+            std::cout << "No high score table file found!" << std::endl;
+            return false;
+        }
+
+        // Передаем начальные значения
+        int line_number = 1;
+        std::string player_name = "";
+        int player_score = 0;
+        
+        // Читаем файл
+        while (score_file)
+        {
+            // Получаем имя игрока, которое записано на нечетных строках
+            if (line_number % 2 == 1)
+            {
+                // Игнорируем следующий символ, если это не первая строка
+                //  иначе не переводит строку
+                if (line_number != 1)
+                    score_file.ignore();
+                
+                // Получаем имя игрока
+                std::getline(score_file, player_name);
+                
+                // Если имя игрока пустое, то выходим
+                if (player_name == "")
+                    break;
+            }
+            // Получаем счет игрока на четных строках
+            else
+            {
+                // Получаем
+                score_file >> player_score;
+                // Если такого игрока еще нет, или его счет в переменной больше, чем полученный,
+                //  то заносим новое значение
+                if (score_table_.count(player_name) == 0 ||
+                    (score_table_.count(player_name) == 1 && score_table_[player_name] > player_score))
+                {
+                    score_table_[player_name] = player_score;
+                }
+            }
+
+            // Читаем следующую строку
+            line_number++;
+        }
+
+        return true;
+    }
+
+    void GuessNumberGame::add_new_high_score(int player_score)
+    {
+        if (score_table_.count(player_name_) == 0 ||
+            (score_table_.count(player_name_) == 1 && score_table_[player_name_] > player_score))
+        {
+            score_table_[player_name_] = player_score;
+            refresh_high_score_table_file();
+        }
+    }
+
+    void GuessNumberGame::refresh_high_score_table_file()
+    {
+        std::ofstream score_file{"high_score_table.data"};
+
+        // Если не открыт, то выводим ошибку и выходим
+        if (!score_file.is_open())
+        {
+            std::cout << "Can't open high score table!" << std::endl;
+            return ;
+        }
+
+        for (auto const&[player_name, player_score] : score_table_)
+        {
+            score_file << player_name << "\n";
+            score_file << player_score << "\n";
+        }
+    }
+
+    void GuessNumberGame::print_high_score_table()
+    {
+        if (score_table_.size() == 0)
+        {
+            std::cout << "No high scores! Be first!" << std::endl;
+            return;
+        }
+
+        for (auto const&[player_name, player_score] : score_table_)
+        {
+            std::cout << player_name << " - ";
+            std::cout << player_score << std::endl;
+        }
     }
 
     void GuessNumberGame::start()
     {
         std::cout << "Welcome to Guess Number Game!" << std::endl;
         
+        std::cout << "Before start please, enter your name: ";
+        std::getline(std::cin, player_name_);
+
+        load_high_score_table_from_file();
+
         int choice = 0;
         while (choice != 4)
         {
@@ -145,6 +247,7 @@ namespace homework_1_guess_number {
                     break;
                 }
             case 3:
+                print_high_score_table();
                 break;
             default:
                 break;
