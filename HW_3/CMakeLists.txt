@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2.0)
 
-project(cpp_basic_otus)
+project(cpp_basic_otus_hw_3)
 
 add_executable(guess_number
         guess_number.cpp
