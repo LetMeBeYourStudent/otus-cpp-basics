@@ -412,7 +412,7 @@ std::swap(capacity_, other.capacity_);
 
 template <typename Type>
 inline bool operator==(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
-    if (lhs.GetSize() != rhs.GetSize()) return false;
+    if (lhs.size() != rhs.size()) return false;
     return std::equal(lhs.begin(),lhs.end(),rhs.begin());
 }
 
